@@ -2,7 +2,8 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import contactsReducer, { fetchContacts } from './components/contactsSlice'; 
+import contactsReducer from './redux/contactsSlice';
+import { fetchContacts } from './redux/contactsOperations';
 import App from './components/App';
 import './index.css';
 

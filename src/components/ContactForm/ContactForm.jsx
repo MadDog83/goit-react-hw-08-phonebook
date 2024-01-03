@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { nanoid } from 'nanoid';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchContacts, addContact } from '../contactsSlice'; 
+import { fetchContacts, addContact } from '../../redux/contactsOperations'; 
 import styled from 'styled-components';
 
 const FormContainer = styled.form`
@@ -62,6 +62,7 @@ const ContactForm = () => {
 
   // Get the current list of contacts from the Redux store
   const contacts = useSelector(state => state.contacts.contacts);
+
 
   const handleNameChange = (event) => {
     setName(event.target.value);

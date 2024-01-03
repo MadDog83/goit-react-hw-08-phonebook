@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { actions } from './contactsSlice'; 
+import { actions } from '../redux/contactsSlice';
+import { addContact, fetchContacts } from '../redux/contactsOperations';
 import ContactForm from './ContactForm/ContactForm';
 import ContactList from './ContactList/ContactList';
 import Filter from './Filter/Filter';
@@ -15,14 +16,14 @@ const CenteredContainer = styled.div`
 `;
 
 const App = () => {
-  // Hooks from react-redux for dispatching actions and selecting state.
   const dispatch = useDispatch();
   const { contacts, filter } = useSelector(state => state.contacts);
 
-  // Action dispatchers for deleting a contact, adding a contact, and setting the filter.
-  const deleteContact = id => dispatch(actions.deleteContact(id));
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
   const handleAddContact = newContact => {
-    // Check if the contact already exists before adding.
     const doesExist = contacts.some(
       contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
     );
@@ -30,24 +31,23 @@ const App = () => {
     if (doesExist) {
       alert(`${newContact.name} is already in contacts.`);
     } else {
-      dispatch(actions.addContact(newContact));
+      dispatch(addContact(newContact));
     }
   };
+
   const handleFilterChange = event => dispatch(actions.setFilter(event.target.value));
 
-  // Filter the contacts based on the filter string.
   const filteredContacts = contacts.filter(contact =>
     contact.name.toLowerCase().includes(filter.toLowerCase())
   );
 
-  // The component renders a form for adding contacts, a filter input, and a list of contacts.
   return (
     <CenteredContainer>
       <h1>Phonebook</h1>
       <ContactForm onAdd={handleAddContact} />
       <h2>Contacts</h2>
       <Filter value={filter} onChange={handleFilterChange} />
-      <ContactList contacts={filteredContacts} onDelete={deleteContact} />
+      <ContactList contacts={filteredContacts} onDelete={actions.deleteContact} />
     </CenteredContainer>
   );
 };
