@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { nanoid } from 'nanoid';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchContacts, addContact } from '../../redux/contactsOperations'; 
 import styled from 'styled-components';
@@ -77,7 +76,7 @@ const ContactForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const newContact = { id: nanoid(), name, number };
+    const newContact = { name, number }; // removed id
 
     // Check if a contact with the same name already exists
     const doesExist = contacts.some(
@@ -87,12 +86,12 @@ const ContactForm = () => {
     if (doesExist) {
       alert(`${newContact.name} is already in contacts.`);
     } else {
-      dispatch(addContact(newContact));
+      dispatch(addContact(newContact)).then(() => dispatch(fetchContacts())); // fetch contacts after adding a new one
     }
      setName('');
      setNumber('');
   };
-
+  
   return (
     <FormContainer onSubmit={handleSubmit}>
       <LabelName>
