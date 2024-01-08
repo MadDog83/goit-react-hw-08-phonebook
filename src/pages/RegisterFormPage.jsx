@@ -48,7 +48,7 @@ const RegisterFormPage = () => {
           <FormLabel color="white">Password:</FormLabel>
           <Input type="password" value={password} onChange={handlePasswordChange} />
         </FormControl>
-        <Button mt={4} colorScheme="teal" type="submit">Register</Button>
+        <Button mt={4} colorScheme="teal" size="lg" width="full" type="submit">Register</Button>
       </form>
     </Box>
   );
