@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../redux/authOperations'; 
@@ -11,17 +11,6 @@ const LoginFormPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const authError = useSelector(state => state.auth.error);
-
-  useEffect(() => {
-    const rememberedEmail = localStorage.getItem('email');
-    const rememberedPassword = localStorage.getItem('password');
-
-    if (rememberedEmail && rememberedPassword) {
-      setEmail(rememberedEmail);
-      setPassword(rememberedPassword);
-      setRememberMe(true);
-    }
-  }, []);
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -40,13 +29,6 @@ const LoginFormPage = () => {
     dispatch(login({ email, password, rememberMe }))
       .then((resultAction) => {
         if (resultAction.type === 'auth/loginSuccess') {
-          if (rememberMe) {
-            localStorage.setItem('email', email);
-            localStorage.setItem('password', password);
-          } else {
-            localStorage.removeItem('email');
-            localStorage.removeItem('password');
-          }
           setEmail('');
           setPassword('');
           navigate('/contacts');
@@ -67,7 +49,7 @@ const LoginFormPage = () => {
           <FormLabel color="white">Password:</FormLabel>
           <Input type="password" value={password} onChange={handlePasswordChange} />
         </FormControl>
-        <Checkbox color="white" mt={4} onChange={handleRememberMeChange} isChecked={rememberMe}>Remember me</Checkbox>
+        <Checkbox color="white" mt={4} onChange={handleRememberMeChange}>Remember me</Checkbox>
         <Button mt={4} colorScheme="teal" size="lg" width="full" type="submit">Login</Button>
       </form>
     </Box>
