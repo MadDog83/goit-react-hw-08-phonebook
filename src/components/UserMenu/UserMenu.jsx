@@ -9,6 +9,8 @@ const UserMenu = () => {
   const authState = useSelector((state) => state.auth);
 
   const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
     dispatch(actions.logout());
     navigate('/login'); 
   };

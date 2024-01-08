@@ -13,12 +13,15 @@ const register = (credentials) => async (dispatch) => {
       }
     });
 
+    localStorage.setItem('token', response.data.token);
+    localStorage.setItem('user', JSON.stringify(response.data.user));
+
     dispatch(actions.registerSuccess(response.data));
-    return response.data; // Add this line
+    return response.data;
   } catch (error) {
     const errorMessage = error.response?.data?.message || 'Registration failed';
     dispatch(actions.registerError(errorMessage));
-    throw error; // And this line
+    throw error;
   }
 };
 
@@ -33,12 +36,15 @@ const login = (credentials) => async (dispatch) => {
   try {
     const response = await axios.post(`${BASE_URL}/users/login`, credentials);
 
+    localStorage.setItem('token', response.data.token);
+    localStorage.setItem('user', JSON.stringify(response.data.user));
+
     dispatch(actions.loginSuccess(response.data));
-    return response.data; // Add this line
+    return response.data;
   } catch (error) {
     const errorMessage = error.response?.data?.message || 'Login failed';
     dispatch(actions.loginError(errorMessage));
-    throw error; // And this line
+    throw error;
   }
 };
 
