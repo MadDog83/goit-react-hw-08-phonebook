@@ -52,9 +52,9 @@ const App = () => {
             <Route path="/contacts" element={
               <PrivateRoute>
                 <>
-                  <h1>Phonebook</h1>
+                <h1 style={{ fontSize: '2em', fontWeight: 'bold' }}>Phonebook</h1>
                   <ContactForm onAdd={handleAddContact} />
-                  <h2>Contacts</h2>
+                <h2 style={{ fontSize: '1.5em', fontWeight: 'bold' }}>Contacts</h2>
                   <Filter value={filter} onChange={handleFilterChange} />
                   <ContactList contacts={filteredContacts} onDelete={actions.deleteContact} />
                 </>
