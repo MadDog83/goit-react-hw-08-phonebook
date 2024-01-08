@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { actions as contactActions } from '../redux/contactsSlice';
+import { actions } from '../redux/contactsSlice';
 import { addContact, fetchContacts } from '../redux/contactsOperations';
 import ContactForm from './ContactForm/ContactForm';
 import ContactList from './ContactList/ContactList';
@@ -13,21 +13,13 @@ import Navigation from './Navigation/Navigation';
 import UserMenu from './UserMenu/UserMenu';
 import PrivateRoute from './PrivateRoute'; 
 import { ChakraProvider } from "@chakra-ui/react";
-import { actions as authActions } from '../redux/authSlice';
 
 const App = () => {
   const dispatch = useDispatch();
   const { contacts, filter } = useSelector(state => state.contacts);
-  const [isAppLoaded, setAppLoaded] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      // If token exists, consider the user as logged in
-      dispatch(authActions.loginSuccess({ token }));
-    }
     dispatch(fetchContacts());
-    setAppLoaded(true); // Set app as loaded after checking the token
   }, [dispatch]); 
 
   const handleAddContact = newContact => {
@@ -42,15 +34,11 @@ const App = () => {
     }
   };
 
-  const handleFilterChange = event => dispatch(contactActions.setFilter(event.target.value));
+  const handleFilterChange = event => dispatch(actions.setFilter(event.target.value));
 
   const filteredContacts = contacts.filter(contact =>
     contact.name.toLowerCase().includes(filter.toLowerCase())
   );
-
-  if (!isAppLoaded) {
-    return <div>Loading...</div>; // Show a loading component while the app is loading
-  }
 
   return (
     <ChakraProvider>
@@ -68,7 +56,7 @@ const App = () => {
                   <ContactForm onAdd={handleAddContact} />
                   <h2>Contacts</h2>
                   <Filter value={filter} onChange={handleFilterChange} />
-                  <ContactList contacts={filteredContacts} onDelete={contactActions.deleteContact} />
+                  <ContactList contacts={filteredContacts} onDelete={actions.deleteContact} />
                 </>
               </PrivateRoute>
             } />
