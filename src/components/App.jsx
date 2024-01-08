@@ -6,7 +6,7 @@ import ContactForm from './ContactForm/ContactForm';
 import ContactList from './ContactList/ContactList';
 import Filter from './Filter/Filter';
 import { Box } from '@chakra-ui/react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import RegisterFormPage from '../pages/RegisterFormPage';
 import LoginFormPage from '../pages/LoginFormPage';
 import Navigation from './Navigation/Navigation';
