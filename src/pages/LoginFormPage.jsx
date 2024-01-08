@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../redux/authOperations'; 
-import { Box, Button, FormControl, FormLabel, Input, Text } from '@chakra-ui/react';
+import { Box, Button, Checkbox, FormControl, FormLabel, Input, Text } from '@chakra-ui/react';
 
 const LoginFormPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const authError = useSelector(state => state.auth.error);
@@ -19,9 +20,13 @@ const LoginFormPage = () => {
     setPassword(event.target.value);
   };
 
+  const handleRememberMeChange = (event) => {
+    setRememberMe(event.target.checked);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(login({ email, password }))
+    dispatch(login({ email, password, rememberMe }))
       .then((resultAction) => {
         if (resultAction.type === 'auth/loginSuccess') {
           setEmail('');
@@ -44,6 +49,7 @@ const LoginFormPage = () => {
           <FormLabel color="white">Password:</FormLabel>
           <Input type="password" value={password} onChange={handlePasswordChange} />
         </FormControl>
+        <Checkbox color="white" mt={4} onChange={handleRememberMeChange}>Remember me</Checkbox>
         <Button mt={4} colorScheme="teal" size="lg" width="full" type="submit">Login</Button>
       </form>
     </Box>
