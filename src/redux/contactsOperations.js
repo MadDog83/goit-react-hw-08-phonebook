@@ -1,21 +1,20 @@
-
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-const BASE_URL = 'https://connections-api.herokuapp.com';
+axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
 
 export const register = createAsyncThunk('auth/register', async (credentials) => {
-  const response = await axios.post(`${BASE_URL}/users/signup`, credentials);
+  const response = await axios.post('/users/signup', credentials);
   return response.data;
 });
 
 export const login = createAsyncThunk('auth/login', async (credentials) => {
-  const response = await axios.post(`${BASE_URL}/users/login`, credentials);
+  const response = await axios.post('/users/login', credentials);
   return response.data;
 });
 
 export const updateCurrentUser = createAsyncThunk('auth/updateCurrentUser', async (user) => {
-  const response = await axios.patch(`${BASE_URL}/users`, user);
+  const response = await axios.patch('/users', user);
   return response.data;
 });
 
@@ -27,7 +26,7 @@ export const fetchContacts = createAsyncThunk('contacts/fetchAll', async (_, { g
     throw new Error('Token is null. User must be logged in to fetch contacts.');
   }
 
-  const response = await axios.get(`${BASE_URL}/contacts`, {
+  const response = await axios.get('/contacts', {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -39,7 +38,7 @@ export const addContact = createAsyncThunk('contacts/addContact', async (contact
   const state = getState();
   const token = state.auth.token;
 
-  const response = await axios.post(`${BASE_URL}/contacts`, contact, {
+  const response = await axios.post('/contacts', contact, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -51,7 +50,7 @@ export const deleteContact = createAsyncThunk('contacts/deleteContact', async (i
   const state = getState();
   const token = state.auth.token;
 
-  await axios.delete(`${BASE_URL}/contacts/${id}`, {
+  await axios.delete(`/contacts/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

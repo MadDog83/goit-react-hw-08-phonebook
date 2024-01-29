@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { actions } from './authSlice';
 
-const BASE_URL = 'https://connections-api.herokuapp.com';
+axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
 
 const register = (credentials) => async (dispatch) => {
   dispatch(actions.registerRequest());
 
   try {
-    const response = await axios.post(`${BASE_URL}/users/signup`, credentials, {
+    const response = await axios.post('/users/signup', credentials, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -34,7 +34,7 @@ const login = (credentials) => async (dispatch) => {
   }
 
   try {
-    const response = await axios.post(`${BASE_URL}/users/login`, credentials);
+    const response = await axios.post('/users/login', credentials);
 
     localStorage.setItem('token', response.data.token);
     localStorage.setItem('user', JSON.stringify(response.data.user));
